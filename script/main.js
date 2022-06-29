@@ -2,6 +2,8 @@
 const carousel = document.getElementById("carousel");
 const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
+const thumbnailsContainer = document.getElementById("thumbnails-container");
+const autoplay = document.getElementById("autoplay");
 let activeIndex = 0;
 
 const images = [
@@ -34,61 +36,149 @@ const images = [
     },
 ];
 
-const slideList = [];
+const slides = [];
+
+const thumbnailsList = [];
 
 images.forEach( (element) => {
     
-    let slider = document.createElement("div");
-    slider.classList.add("slide")
-    carousel.append(slider);
+    let slide = document.createElement("div");
+    slide.classList.add("slide")
+    carousel.append(slide);
+  
+    let thumbnailImg = document.createElement("img");
+    thumbnailImg.setAttribute("src", element.url);
 
-    const newImg = document.createElement("img");
+    let newImg = document.createElement("img");
     newImg.setAttribute("src", element.url);
-    slider.append(newImg);
-
+    slide.append(newImg);
+    
     const newTitle = document.createElement("h3");
     newTitle.innerHTML = element.title,
-    slider.append(newTitle);
-
+    slide.append(newTitle);
+    
     const newDescription = document.createElement("p");
     newDescription.innerHTML = element.description,
-    slider.append(newDescription);
-
-    slideList.push(slider);
+    slide.append(newDescription);
+    
+    slides.push(slide);
+    thumbnailsList.push(thumbnailImg);
 
 });
 
-slideList[activeIndex].classList.add("active");
+
+slides[activeIndex].classList.add("active");
+thumbnailsList[activeIndex].classList.add("active");
+
+
+
+thumbnailsList.forEach( (element) => {
+    element.classList.add("thumbnail");
+    thumbnailsContainer.append(element);
+} );
+
+
+
+for ( let i = 0; i < thumbnailsList.length; i++) {
+
+    thumbnailsList[i].addEventListener("click", function() {
+
+        for ( let index = 0; index < thumbnailsList.length; index++){
+
+            slides[index].classList.remove("active");
+            thumbnailsList[index].classList.remove("active");
+        };
+
+        slides[i].classList.add("active");
+        thumbnailsList[i].classList.add("active");
+
+    });
+}
+
+let isAutoplayOn = true;
+let clock;
+
+if (isAutoplayOn === true) { 
+    
+    clock = setInterval(function() {
+
+    slides[activeIndex].classList.remove("active");
+    thumbnailsList[activeIndex].classList.remove("active");
+
+
+    if (activeIndex === slides.length -1) {
+        activeIndex = 0;
+    } else {
+        activeIndex++;
+    }
+
+    slides[activeIndex].classList.add("active");
+    thumbnailsList[activeIndex].classList.add("active");
+
+}, 1000);
+};
+
+autoplay.addEventListener("click", function () {
+
+    if (isAutoplayOn === true) {
+        clearInterval(clock);
+        isAutoplayOn = false;
+        autoplay.innerHTML = "Restart"
+    } else {
+        clock = setInterval(function() {
+    
+        slides[activeIndex].classList.remove("active");
+        thumbnailsList[activeIndex].classList.remove("active");
+    
+    
+        if (activeIndex === slides.length -1) {
+            activeIndex = 0;
+        } else {
+            activeIndex++;
+        }
+    
+        slides[activeIndex].classList.add("active");
+        thumbnailsList[activeIndex].classList.add("active");
+    
+    }, 1000);
+        isAutoplayOn = true;
+        autoplay.innerHTML = "Stop";
+    }
+})
 
 
 
 
 nextButton.addEventListener("click", function() {
 
-    slideList[activeIndex].classList.remove("active");
+    slides[activeIndex].classList.remove("active");
+    thumbnailsList[activeIndex].classList.remove("active");
 
 
-    if (activeIndex === slideList.length -1) {
+    if (activeIndex === slides.length -1) {
         activeIndex = 0;
     } else {
         activeIndex++;
     }
 
-    slideList[activeIndex].classList.add("active");
+    slides[activeIndex].classList.add("active");
+    thumbnailsList[activeIndex].classList.add("active");
 
 });
 
 prevButton.addEventListener("click", function() {
 
-    slideList[activeIndex].classList.remove("active");
+    slides[activeIndex].classList.remove("active");
+    thumbnailsList[activeIndex].classList.remove("active");
 
 
     if (activeIndex === 0) {
-        activeIndex = slideList.length -1;
+        activeIndex = slides.length -1;
     } else {
         activeIndex--;
     }
 
-    slideList[activeIndex].classList.add("active");
+    slides[activeIndex].classList.add("active");
+    thumbnailsList[activeIndex].classList.add("active");
 
 })
