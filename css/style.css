@@ -5,7 +5,7 @@
 }
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgb(250, 246, 240);
+    background-color: rgb(243, 232, 214);
 }
 
 h1 {
@@ -18,13 +18,13 @@ h1 {
     width: 1300px;
     height: 800px;
     margin: 0 auto;
+    position: relative;
 }
 
 #carousel {
     height: 100%;
     width: 100%;
     position: relative;
-    background-color: rgb(241, 187, 187);
 
 }
 
@@ -47,6 +47,10 @@ h1 {
 #button-container {
     display: flex;
     justify-content: space-between;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
 }
 
 #button-container button {
@@ -75,4 +79,22 @@ h1 {
 
 #button-container button:hover {
     opacity: 1;
+}
+
+.slide > h3 {
+    font-size: 3rem;
+    position: absolute;
+    bottom: 50px;
+    left: 120px;
+    color: white;
+    text-shadow: 0 0 10px black;
+}
+
+.slide > p {
+    font-size: 1.05rem;
+    position: absolute;
+    bottom: 20px;
+    color: white;
+    left: 120px;
+    text-shadow: 0 0 15px black;
 }

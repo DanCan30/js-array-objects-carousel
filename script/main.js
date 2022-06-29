@@ -3,7 +3,6 @@ const carousel = document.getElementById("carousel");
 const nextButton = document.getElementById("next-button");
 const prevButton = document.getElementById("prev-button");
 let activeIndex = 0;
-let slider;
 
 const images = [
     {
@@ -11,13 +10,13 @@ const images = [
         title: 'Svezia',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
-
+    
     {
         url: 'https://static1.evcdn.net/images/reduction/1513757_w-1920_h-1080_q-70_m-crop.jpg',
         title: 'Perù',
         description: 'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Et temporibus voluptatum suscipit tempore aliquid deleniti aut veniam.'
     },
-
+    
     {
         url: 'https://img.itinari.com/pages/images/original/0d3ed180-d22d-48e8-84df-19c4d888b41f-62-crop.jpg?ch=DPR&dpr=2.625&w=1600&s=7ebd4b5a9e045f41b4e0c7c75d298d6c',
         title: 'Chile',
@@ -35,10 +34,11 @@ const images = [
     },
 ];
 
+const slideList = [];
 
-images.forEach( (element, index) => {
-
-    slider = document.createElement("div");
+images.forEach( (element) => {
+    
+    let slider = document.createElement("div");
     slider.classList.add("slide")
     carousel.append(slider);
 
@@ -54,13 +54,41 @@ images.forEach( (element, index) => {
     newDescription.innerHTML = element.description,
     slider.append(newDescription);
 
-    if (activeIndex === index) {
-        slider.classList.add("active");
-    }
+    slideList.push(slider);
 
 });
 
+slideList[activeIndex].classList.add("active");
+
+
+
 
 nextButton.addEventListener("click", function() {
+
+    slideList[activeIndex].classList.remove("active");
+
+
+    if (activeIndex === slideList.length -1) {
+        activeIndex = 0;
+    } else {
+        activeIndex++;
+    }
+
+    slideList[activeIndex].classList.add("active");
+
+});
+
+prevButton.addEventListener("click", function() {
+
+    slideList[activeIndex].classList.remove("active");
+
+
+    if (activeIndex === 0) {
+        activeIndex = slideList.length -1;
+    } else {
+        activeIndex--;
+    }
+
+    slideList[activeIndex].classList.add("active");
 
 })
